@@ -159,23 +159,17 @@ th {
   </div>
 
   <!-- ================= TREN GRAFIK ================= -->
-  <div class="container">
-    <div class="card">
-      <h2>Tren Grafik</h2>
-      <div style="padding:16px; text-align:center">
-
-        <img id="grafikTren"
-             alt="Grafik Tren TMA"
-             style="max-width:100%; height:auto; display:none; border-radius:6px;">
-
-        <div id="grafikKosong"
-             style="color:#666; font-size:14px;">
-          Grafik tren belum tersedia
-        </div>
-
+<div class="container">
+  <div class="card">
+    <h2>Tren Grafik</h2>
+    <div id="grafikTrenContainer"
+         style="padding:16px; text-align:center">
+      <div style="color:#666; font-size:14px;">
+        Grafik tren belum tersedia
       </div>
     </div>
   </div>
+</div>
 
 </div>
 
@@ -194,7 +188,7 @@ function loadData(data) {
   // ===== TMA =====
   let tmaHTML = `
     <tr>
-      <th>Lokasi</th><th>TMA</th><th>Tren</th><th>Δ</th><th>Penyebab</th>
+      <th>Lokasi</th><th>TMA</th><th>Tren</th><th>Perubahan</th><th>Penyebab</th>
     </tr>`;
   data.tma.forEach(r => {
     tmaHTML += `
