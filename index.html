@@ -205,14 +205,7 @@ document.getElementById("judul").innerText = data.meta.judul;
 document.getElementById("waktu").innerText =
   data.meta.tanggal + " | Pukul " + data.meta.waktu;
 
-// Logo kiri
-const logoKiri = document.getElementById("logoKiri");
-if (data.meta.logo_kiri) {
-  logoKiri.src = data.meta.logo_kiri;
-  logoKiri.alt = "Logo Kiri";
-} else {
-  logoKiri.style.display = "none";
-}
+
 
 // Logo kanan
 const logoKanan = document.getElementById("logoKanan");
