@@ -152,70 +152,56 @@
 
   <!-- SCRIPT -->
   <script>
-    /* ==============================
-       KONFIGURASI API
-    ================================ */
-    const API_URL = "https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec"; // URL /exec
+const API_URL = "https://script.google.com/macros/s/AKfycbRv6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJmpkIT9tec4/exec";
 
-    fetch(API_URL)
-      .then(res => res.json())
-      .then(data => {
+function loadData(data) {
 
-        // HEADER
-        document.getElementById("judul").innerText = data.meta.judul;
-        document.getElementById("waktu").innerText =
-          data.meta.tanggal + " | Pukul " + data.meta.waktu;
+  document.getElementById("judul").innerText = data.meta.judul;
+  document.getElementById("waktu").innerText =
+    data.meta.tanggal + " | Pukul " + data.meta.waktu;
 
-        // TABEL TMA
-        let tmaHTML = `
-          <tr>
-            <th>Lokasi</th>
-            <th>TMA Terkini</th>
-            <th>Tren</th>
-            <th>Perubahan</th>
-            <th>Penyebab</th>
-          </tr>`;
-        data.tma.forEach(r => {
-          tmaHTML += `
-            <tr>
-              <td>${r.lokasi}</td>
-              <td>± <b>${r.tma} m</b></td>
-              <td>${r.tren}</td>
-              <td>${r.perubahan} m</td>
-              <td>${r.penyebab}</td>
-            </tr>`;
-        });
-        document.getElementById("tmaTable").innerHTML = tmaHTML;
+  let tmaHTML = `
+    <tr>
+      <th>Lokasi</th>
+      <th>TMA Terkini</th>
+      <th>Tren</th>
+      <th>Perubahan</th>
+      <th>Penyebab</th>
+    </tr>`;
+  data.tma.forEach(r => {
+    tmaHTML += `
+      <tr>
+        <td>${r.lokasi}</td>
+        <td>± <b>${r.tma} m</b></td>
+        <td>${r.tren}</td>
+        <td>${r.perubahan} m</td>
+        <td>${r.penyebab}</td>
+      </tr>`;
+  });
+  document.getElementById("tmaTable").innerHTML = tmaHTML;
 
-        // PDA
-        const bahaya = data.pda.filter(p => p.status === "Bahaya");
-        const siaga  = data.pda.filter(p => p.status === "Siaga");
+  const bahaya = data.pda.filter(p => p.status === "Bahaya");
+  const siaga  = data.pda.filter(p => p.status === "Siaga");
 
-        document.getElementById("pdaBahaya").innerText =
-          bahaya.length + " PDA Bahaya";
-        document.getElementById("pdaSiaga").innerText =
-          siaga.length + " PDA Siaga";
+  document.getElementById("pdaBahaya").innerText = bahaya.length + " PDA Bahaya";
+  document.getElementById("pdaSiaga").innerText  = siaga.length  + " PDA Siaga";
 
-        document.getElementById("pdaBahayaTable").innerHTML =
-          bahaya.map(p =>
-            `<tr><td>${p.nama}</td><td>${p.tinggi} m</td></tr>`
-          ).join("");
+  document.getElementById("pdaBahayaTable").innerHTML =
+    bahaya.map(p => `<tr><td>${p.nama}</td><td>${p.tinggi} m</td></tr>`).join("");
 
-        document.getElementById("pdaSiagaTable").innerHTML =
-          siaga.map(p =>
-            `<tr><td>${p.nama}</td><td>${p.tinggi} m</td></tr>`
-          ).join("");
+  document.getElementById("pdaSiagaTable").innerHTML =
+    siaga.map(p => `<tr><td>${p.nama}</td><td>${p.tinggi} m</td></tr>`).join("");
 
-        // TINDAK LANJUT
-        document.getElementById("tindakList").innerHTML =
-          data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
+  document.getElementById("tindakList").innerHTML =
+    data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
+}
 
-      })
-      .catch(err => {
-        document.getElementById("waktu").innerText = "Gagal memuat data";
-        console.error("Error API:", err);
-      });
-  </script>
+// Inject JSONP
+const script = document.createElement("script");
+script.src = API_URL + "?callback=loadData";
+document.body.appendChild(script);
+</script>
+
 
 </body>
 </html>
