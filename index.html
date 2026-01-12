@@ -13,21 +13,54 @@ body {
   color:#222;
 }
 .header {
-  background:#2a87a3;
-  color:#fff;
-  padding:24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  background: #2b86a2;
+  color: #fff;
+  padding: 22px 32px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
 }
-.header h1 {
-  margin:0;
-  font-size:28px;
+
+.header-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.header .sub {
-  font-size:18px;
-  margin-top:6px;
+
+.header-right {
+  justify-content: flex-end;
 }
+
+.header-center {
+  text-align: center;
+}
+
+.header-center h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.sub {
+  margin-top: 6px;
+  font-size: 20px;
+  opacity: 0.95;
+}
+
+.logo-left {
+  height: 64px;
+}
+
+.logo-right {
+  height: 48px;
+}
+
+.right-text {
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: left;
+}
+
 .container {
   padding:20px;
 }
@@ -102,12 +135,26 @@ li {
 
 <!-- HEADER -->
 <div class="header">
-  <div>
-    <h1 id="judul">Monitoring Tinggi Muka Air (TMA)</h1>
-    <div class="sub" id="waktu">Memuat data...</div>
+
+  <!-- LOGO KIRI -->
+  <div class="header-side">
+    <img id="logoKiri" class="logo-left">
   </div>
-  <div><strong>Transformasi Hijau & Digital</strong></div>
+
+  <!-- TENGAH -->
+  <div class="header-center">
+    <h1 id="judul"></h1>
+    <div class="sub" id="waktu"></div>
+  </div>
+
+  <!-- LOGO KANAN -->
+  <div class="header-side header-right">
+    <img id="logoKanan" class="logo-right">
+    <div class="right-text">Transformasi<br>Hijau dan Digital</div>
+  </div>
+
 </div>
+
 
 <!-- CONTENT -->
 <div class="container">
@@ -153,8 +200,28 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqU
 function loadData(data) {
 
   // HEADER
-  document.getElementById("judul").innerText = data.meta.judul;
-  document.getElementById("waktu").innerText = data.meta.tanggal + " | Pukul " + data.meta.waktu;
+  // Judul & waktu
+document.getElementById("judul").innerText = data.meta.judul;
+document.getElementById("waktu").innerText =
+  data.meta.tanggal + " | Pukul " + data.meta.waktu;
+
+// Logo kiri
+const logoKiri = document.getElementById("logoKiri");
+if (data.meta.logo_kiri) {
+  logoKiri.src = data.meta.logo_kiri;
+  logoKiri.alt = "Logo Kiri";
+} else {
+  logoKiri.style.display = "none";
+}
+
+// Logo kanan
+const logoKanan = document.getElementById("logoKanan");
+if (data.meta.logo_kanan) {
+  logoKanan.src = data.meta.logo_kanan;
+  logoKanan.alt = "Logo Kanan";
+} else {
+  logoKanan.style.display = "none";
+}
 
   // TABEL TMA
   let tmaHTML = `
