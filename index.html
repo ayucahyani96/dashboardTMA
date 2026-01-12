@@ -180,17 +180,18 @@ function loadData(data) {
   });
   document.getElementById("tmaTable").innerHTML = tmaHTML;
 
-  const bahaya = data.pda.filter(p => p.status === "Bahaya");
-  const siaga  = data.pda.filter(p => p.status === "Siaga");
+  // PDA (SESUIKAN DENGAN JSON KAMU)
+const bahaya = data.pda.filter(p => p.nama === "Bahaya");
+const siaga  = data.pda.filter(p => p.nama === "Siaga");
 
-  document.getElementById("pdaBahaya").innerText = bahaya.length + " PDA Bahaya";
-  document.getElementById("pdaSiaga").innerText  = siaga.length  + " PDA Siaga";
+document.getElementById("pdaBahaya").innerText = bahaya.length + " PDA Bahaya";
+document.getElementById("pdaSiaga").innerText  = siaga.length  + " PDA Siaga";
 
-  document.getElementById("pdaBahayaTable").innerHTML =
-    bahaya.map(p => `<tr><td>${p.nama}</td><td>${p.tinggi} m</td></tr>`).join("");
+document.getElementById("pdaBahayaTable").innerHTML =
+  bahaya.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
 
-  document.getElementById("pdaSiagaTable").innerHTML =
-    siaga.map(p => `<tr><td>${p.nama}</td><td>${p.tinggi} m</td></tr>`).join("");
+document.getElementById("pdaSiagaTable").innerHTML =
+  siaga.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
 
   document.getElementById("tindakList").innerHTML =
     data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
