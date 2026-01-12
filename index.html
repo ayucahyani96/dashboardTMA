@@ -97,6 +97,25 @@ th {
 @media(max-width:900px){
   .grid {grid-template-columns:1fr}
 }
+  .tren {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.tren-naik::before {
+  content: "▲";
+  color: #d32f2f; /* merah */
+  font-size: 14px;
+}
+
+.tren-turun::before {
+  content: "▼";
+  color: #000; /* hitam */
+  font-size: 14px;
+}
+
 </style>
 </head>
 
@@ -195,7 +214,18 @@ function loadData(data) {
       <tr>
         <td>${r.lokasi}</td>
         <td>${r.tma} m</td>
-        <td>${r.tren}</td>
+        <td>
+          ${(() => {
+            const t = (r.tren || "").toLowerCase();
+            if (t === "naik") {
+              return `<span class="tren tren-naik">Naik</span>`;
+            }
+            if (t === "turun") {
+              return `<span class="tren tren-turun">Turun</span>`;
+            }
+            return r.tren || "-";
+          })()}
+        </td>
         <td>${r.perubahan}</td>
         <td>${r.penyebab}</td>
       </tr>`;
