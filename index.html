@@ -224,17 +224,27 @@ function loadData(data) {
     data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
 
   // ===== TREN GRAFIK =====
-  const img = document.getElementById("grafikTren");
-  const kosong = document.getElementById("grafikKosong");
+  // ===== TREN GRAFIK (MULTI IMAGE) =====
+const container = document.getElementById("grafikTrenContainer");
 
-  if (data.grafik_tren) {
-    img.src = data.grafik_tren;
-    img.style.display = "block";
-    kosong.style.display = "none";
-  } else {
-    img.style.display = "none";
-    kosong.style.display = "block";
-  }
+if (Array.isArray(data.grafik_tren) && data.grafik_tren.length > 0) {
+  container.innerHTML = data.grafik_tren.map(g => `
+    <div style="margin-bottom:16px">
+      <img 
+        src="${g.url}"
+        alt="${g.name}"
+        style="width:100%; max-height:420px; object-fit:contain; border-radius:6px;"
+      >
+    </div>
+  `).join("");
+} else {
+  container.innerHTML = `
+    <div style="color:#666; font-size:14px;">
+      Grafik tren belum tersedia
+    </div>
+  `;
+}
+
 }
 
 function renderPDA(type, arr) {
