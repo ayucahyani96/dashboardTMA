@@ -102,41 +102,41 @@ th {
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <div class="header">
 
-  <!-- LOGO KIRI -->
   <div class="header-side">
     <img src="https://ayucahyani96.github.io/dashboardTMA/IKN_Nusantara-10.png"
-         class="logo-left"
-         alt="Logo IKN">
+         class="logo-left">
   </div>
 
-  <!-- TENGAH -->
   <div class="header-center">
     <h1 id="judul">Memuat...</h1>
     <div class="sub" id="waktu"></div>
   </div>
 
-  <!-- LOGO KANAN -->
   <div class="header-side header-right">
-   <img src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png"
-     class="logo-right"
-     alt="Logo Transformasi Hijau & Digital">
-    <div class="right-text">Transformasi<br>Hijau dan Digital</div>
+    <img src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png"
+         class="logo-right">
+    <div class="right-text">
+      Transformasi<br>Hijau dan Digital
+    </div>
   </div>
 
 </div>
 
-<!-- CONTENT -->
+<!-- ================= CONTENT ================= -->
 <div class="container">
+
   <div class="grid">
 
+    <!-- TMA -->
     <div class="card">
       <h2>Kondisi TMA</h2>
       <table id="tmaTable"></table>
     </div>
 
+    <!-- PDA -->
     <div class="card">
       <h2>Status PDA BWS</h2>
 
@@ -150,6 +150,7 @@ th {
       <table id="pdaWaspadaTable"></table>
     </div>
 
+    <!-- TINDAK LANJUT -->
     <div class="card">
       <h2>Tindak Lanjut</h2>
       <ul id="tindakList" style="padding:14px"></ul>
@@ -157,33 +158,28 @@ th {
 
   </div>
 
-  //====tambahan ayu======
-  <!-- TREN GRAFIK -->
-<div class="container">
-  <div class="card">
-    <h2>Tren Grafik</h2>
-    <div style="padding:16px; text-align:center">
+  <!-- ================= TREN GRAFIK ================= -->
+  <div class="container">
+    <div class="card">
+      <h2>Tren Grafik</h2>
+      <div style="padding:16px; text-align:center">
 
-      <img id="grafikTren"
-           alt="Grafik Tren TMA"
-           style="
-             max-width:100%;
-             height:auto;
-             display:none;
-             border-radius:6px;
-           ">
+        <img id="grafikTren"
+             alt="Grafik Tren TMA"
+             style="max-width:100%; height:auto; display:none; border-radius:6px;">
 
-      <div id="grafikKosong"
-           style="color:#666; font-size:14px;">
-        Grafik tren belum tersedia
+        <div id="grafikKosong"
+             style="color:#666; font-size:14px;">
+          Grafik tren belum tersedia
+        </div>
+
       </div>
-
     </div>
   </div>
-</div>
-//==sampai sini===
+
 </div>
 
+<!-- ================= SCRIPT ================= -->
 <script>
 const API_URL =
 "https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec";
@@ -226,6 +222,19 @@ function loadData(data) {
   // ===== TINDAK LANJUT =====
   document.getElementById("tindakList").innerHTML =
     data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
+
+  // ===== TREN GRAFIK =====
+  const img = document.getElementById("grafikTren");
+  const kosong = document.getElementById("grafikKosong");
+
+  if (data.grafik_tren) {
+    img.src = data.grafik_tren;
+    img.style.display = "block";
+    kosong.style.display = "none";
+  } else {
+    img.style.display = "none";
+    kosong.style.display = "block";
+  }
 }
 
 function renderPDA(type, arr) {
@@ -239,9 +248,9 @@ function renderPDA(type, arr) {
   }
 
   label.innerText = arr.length + " PDA " + type;
-  table.innerHTML = arr.map(p =>
-    `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`
-  ).join("");
+  table.innerHTML = arr
+    .map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`)
+    .join("");
 }
 
 // JSONP
