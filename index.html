@@ -75,7 +75,7 @@ th {
   font-weight:bold;
 }
 .pda-was {
-  background:#ffe066;
+  background:#ffffff;
   color:#000;
   padding:12px;
   font-weight:bold;
@@ -179,8 +179,7 @@ function loadData(data) {
 
   // PDA
   const bahaya = data.pda.filter(p => p.nama === "Bahaya");
-  const siaga  = data.pda.filter(p => p.nama === "Siaga");
-  const waspada  = data.pda.filter(p => p.nama === "Waspada");
+  const siaga  = data.pda.filter(p => p.nama === "Siaga") 
 
   document.getElementById("pdaBahaya").innerText = bahaya.length + " PDA Bahaya";
   document.getElementById("pdaSiaga").innerText  = siaga.length  + " PDA Siaga";
@@ -192,8 +191,21 @@ function loadData(data) {
   document.getElementById("pdaSiagaTable").innerHTML =
     siaga.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
   
-  document.getElementById("pdaWaspadaTable").innerHTML =
-    waspada.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
+  const waspada = data.pda.filter(p =>
+  p.nama === "Waspada" && Number(p.status) > 0
+);
+
+document.getElementById("pdaWaspada").innerText =
+  waspada.length + " PDA Waspada";
+
+document.getElementById("pdaWaspadaTable").innerHTML =
+  waspada.map(p => `
+    <tr>
+      <td>${p.tinggi}</td>
+      <td>${Number(p.status) > 0 ? p.status + " m" : ""}</td>
+    </tr>
+  `).join("");
+
 
   // TINDAK LANJUT
   document.getElementById("tindakList").innerHTML =
