@@ -6,102 +6,256 @@
 <title>Monitoring Tinggi Muka Air (TMA)</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f2f4f6}
-.header{background:#2b86a2;color:#fff;padding:22px 32px;
-display:grid;grid-template-columns:1fr 2fr 1fr;align-items:center}
-.header-side{display:flex;align-items:center;gap:12px}
-.header-right{justify-content:flex-end}
-.header-center{text-align:center}
-.header-center h1{margin:0;font-size:34px}
-.sub{margin-top:6px;font-size:20px}
-.logo-left{height:120px}
-.logo-right{height:64px}
-.container{padding:20px}
-.grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px}
-.card{background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.12)}
-.card h2{margin:0;padding:12px 16px;background:#2a87a3;color:#fff}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #ddd;font-size:14px}
-th{background:#f7f9fb}
-.pda-danger{background:#ff2d2d;color:#fff;padding:12px;font-weight:bold}
-.pda-alert{background:#ffe066;color:#000;padding:12px;font-weight:bold}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
+body {
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f2f4f6;
+  color:#222;
+}
+.header {
+  background: #2b86a2;
+  color: #fff;
+  padding: 22px 32px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+}
+.header-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-right {
+  justify-content: flex-end;
+}
+.header-center {
+  text-align: center;
+}
+.header-center h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+}
+.sub {
+  margin-top: 6px;
+  font-size: 20px;
+}
+.logo-left { height: 128px; }
+.logo-right { height: 64px; }
+.right-text {
+  font-size: 14px;
+  line-height: 1.2;
+}
+.container { padding:20px; }
+.grid {
+  display:grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap:16px;
+}
+.card {
+  background:#fff;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  overflow:hidden;
+}
+.card h2 {
+  margin:0;
+  padding:12px 16px;
+  background:#2a87a3;
+  color:#fff;
+  font-size:18px;
+}
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+th, td {
+  padding:10px;
+  border-bottom:1px solid #e0e0e0;
+  font-size:14px;
+}
+th {
+  background:#f7f9fb;
+}
+.pda-danger {
+  background:#ff2d2d;
+  color:#fff;
+  padding:12px;
+  font-weight:bold;
+}
+.pda-alert {
+  background:#ffe066;
+  color:#000;
+  padding:12px;
+  font-weight:bold;
+}
+.pda-was {
+  background:#fff;
+  padding:12px;
+  font-weight:bold;
+}
+@media(max-width:900px){
+  .grid {grid-template-columns:1fr}
+}
 </style>
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
 <div class="header">
+
   <div class="header-side">
-    <img src="https://ayucahyani96.github.io/dashboardTMA/IKN_Nusantara-10.png" class="logo-left">
+    <img src="https://ayucahyani96.github.io/dashboardTMA/IKN_Nusantara-10.png"
+         class="logo-left">
   </div>
+
   <div class="header-center">
     <h1 id="judul">Memuat...</h1>
     <div class="sub" id="waktu"></div>
   </div>
+
   <div class="header-side header-right">
-    <img src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png" class="logo-right">
+    <img src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png"
+         class="logo-right">
+    <div class="right-text">
+      Transformasi<br>Hijau dan Digital
+    </div>
   </div>
+
 </div>
 
+<!-- ================= CONTENT ================= -->
 <div class="container">
+
   <div class="grid">
 
+    <!-- TMA -->
     <div class="card">
       <h2>Kondisi TMA</h2>
       <table id="tmaTable"></table>
     </div>
 
+    <!-- PDA -->
     <div class="card">
       <h2>Status PDA BWS</h2>
+
       <div id="pdaBahaya" class="pda-danger"></div>
       <table id="pdaBahayaTable"></table>
+
       <div id="pdaSiaga" class="pda-alert"></div>
       <table id="pdaSiagaTable"></table>
+
+      <div id="pdaWaspada" class="pda-was"></div>
+      <table id="pdaWaspadaTable"></table>
     </div>
 
+    <!-- TINDAK LANJUT -->
     <div class="card">
       <h2>Tindak Lanjut</h2>
-      <ul id="tindakList"></ul>
+      <ul id="tindakList" style="padding:14px"></ul>
     </div>
 
   </div>
 
-  <div class="card" style="margin-top:20px">
-    <h2>Tren Grafik</h2>
-    <div id="grafikTrenContainer" style="padding:16px"></div>
+  <!-- ================= TREN GRAFIK ================= -->
+  <div class="container">
+    <div class="card">
+      <h2>Tren Grafik</h2>
+      <div style="padding:16px; text-align:center">
+
+        <img id="grafikTren"
+             alt="Grafik Tren TMA"
+             style="max-width:100%; height:auto; display:none; border-radius:6px;">
+
+        <div id="grafikKosong"
+             style="color:#666; font-size:14px;">
+          Grafik tren belum tersedia
+        </div>
+
+      </div>
+    </div>
   </div>
+
 </div>
 
+<!-- ================= SCRIPT ================= -->
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec";
 
-function loadData(data){
-  document.getElementById("judul").innerText=data.meta.judul;
-  document.getElementById("waktu").innerText=data.meta.tanggal+" | Pukul "+data.meta.waktu;
+function loadData(data) {
 
-  document.getElementById("tmaTable").innerHTML=
-    `<tr><th>Lokasi</th><th>TMA</th><th>Tren</th><th>Δ</th><th>Penyebab</th></tr>`+
-    data.tma.map(r=>`
-      <tr><td>${r.lokasi}</td><td>${r.tma}</td><td>${r.tren}</td><td>${r.perubahan}</td><td>${r.penyebab}</td></tr>`
-    ).join("");
+  // ===== HEADER =====
+  document.getElementById("judul").innerText = data.meta.judul;
+  document.getElementById("waktu").innerText =
+    data.meta.tanggal + " | Pukul " + data.meta.waktu;
 
-  document.getElementById("tindakList").innerHTML=
-    data.tindak_lanjut.map(t=>`<li>${t.isi}</li>`).join("");
+  // ===== TMA =====
+  let tmaHTML = `
+    <tr>
+      <th>Lokasi</th><th>TMA</th><th>Tren</th><th>Δ</th><th>Penyebab</th>
+    </tr>`;
+  data.tma.forEach(r => {
+    tmaHTML += `
+      <tr>
+        <td>${r.lokasi}</td>
+        <td>${r.tma} m</td>
+        <td>${r.tren}</td>
+        <td>${r.perubahan}</td>
+        <td>${r.penyebab}</td>
+      </tr>`;
+  });
+  document.getElementById("tmaTable").innerHTML = tmaHTML;
 
-  const g=document.getElementById("grafikTrenContainer");
-  if(data.grafik_tren.length){
-    g.innerHTML=data.grafik_tren.map(img=>`
-      <img src="${img.url}" style="width:100%;max-height:420px;object-fit:contain;margin-bottom:16px;border-radius:6px">
-    `).join("");
-  }else{
-    g.innerHTML="<i>Grafik tren belum tersedia</i>";
+  // ===== PDA =====
+  const valid = p => Number(p.status) > 0;
+
+  const bahaya  = data.pda.filter(p => p.nama==="Bahaya" && valid(p));
+  const siaga   = data.pda.filter(p => p.nama==="Siaga" && valid(p));
+  const waspada = data.pda.filter(p => p.nama==="Waspada" && valid(p));
+
+  renderPDA("Bahaya", bahaya);
+  renderPDA("Siaga", siaga);
+  renderPDA("Waspada", waspada);
+
+  // ===== TINDAK LANJUT =====
+  document.getElementById("tindakList").innerHTML =
+    data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
+
+  // ===== TREN GRAFIK =====
+  const img = document.getElementById("grafikTren");
+  const kosong = document.getElementById("grafikKosong");
+
+  if (data.grafik_tren) {
+    img.src = data.grafik_tren;
+    img.style.display = "block";
+    kosong.style.display = "none";
+  } else {
+    img.style.display = "none";
+    kosong.style.display = "block";
   }
 }
 
+function renderPDA(type, arr) {
+  const label = document.getElementById("pda"+type);
+  const table = document.getElementById("pda"+type+"Table");
+
+  if (arr.length === 0) {
+    label.style.display = "none";
+    table.style.display = "none";
+    return;
+  }
+
+  label.innerText = arr.length + " PDA " + type;
+  table.innerHTML = arr
+    .map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`)
+    .join("");
+}
+
 // JSONP
-const s=document.createElement("script");
-s.src=API_URL+"?callback=loadData";
+const s = document.createElement("script");
+s.src = API_URL + "?callback=loadData";
 document.body.appendChild(s);
 </script>
 
