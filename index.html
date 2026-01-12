@@ -120,11 +120,9 @@ th {
 
   <!-- LOGO KANAN -->
   <div class="header-side header-right">
-    <img id="logoKanan"
-         src=""
-         class="logo-right"
-         alt="Logo Kanan"
-         style="display:none">
+    <img src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png"
+         class="logo-left"
+         alt="Logo IKN">
     <div class="right-text">Transformasi<br>Hijau dan Digital</div>
   </div>
 
@@ -170,12 +168,6 @@ function loadData(data) {
   document.getElementById("judul").innerText = data.meta.judul;
   document.getElementById("waktu").innerText =
     data.meta.tanggal + " | Pukul " + data.meta.waktu;
-
-  if (data.meta.logo_kanan) {
-    const lk = document.getElementById("logoKanan");
-    lk.src = data.meta.logo_kanan;
-    lk.style.display = "block";
-  }
 
   // ===== TMA =====
   let tmaHTML = `
