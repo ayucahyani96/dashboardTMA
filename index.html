@@ -1,164 +1,154 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monitoring Tinggi Muka Air (TMA)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring Tinggi Muka Air (TMA)</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f2f4f6;
-      color: #222;
-    }
-
-    .header {
-      background: #2a87a3;
-      color: #fff;
-      padding: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    .header .sub {
-      font-size: 18px;
-      margin-top: 6px;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 16px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-      overflow: hidden;
-    }
-
-    .card h2 {
-      margin: 0;
-      padding: 12px 16px;
-      background: #2a87a3;
-      color: #fff;
-      font-size: 18px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 10px;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 14px;
-    }
-
-    th {
-      background: #f7f9fb;
-      text-align: left;
-    }
-
-    .pda-danger {
-      background: #ff2d2d;
-      color: #fff;
-      padding: 12px;
-      font-weight: bold;
-    }
-
-    .pda-alert {
-      background: #ffe066;
-      color: #000;
-      padding: 12px;
-      font-weight: bold;
-    }
-
-    ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    li {
-      margin-bottom: 8px;
-    }
-
-    .source {
-      font-size: 12px;
-      color: #666;
-      padding: 8px 12px;
-    }
-  </style>
+<style>
+body {
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f2f4f6;
+  color:#222;
+}
+.header {
+  background:#2a87a3;
+  color:#fff;
+  padding:24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.header h1 {
+  margin:0;
+  font-size:28px;
+}
+.header .sub {
+  font-size:18px;
+  margin-top:6px;
+}
+.container {
+  padding:20px;
+}
+.grid {
+  display:grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap:16px;
+}
+.card {
+  background:#fff;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  overflow:hidden;
+}
+.card h2 {
+  margin:0;
+  padding:12px 16px;
+  background:#2a87a3;
+  color:#fff;
+  font-size:18px;
+}
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+th, td {
+  padding:10px;
+  border-bottom:1px solid #e0e0e0;
+  font-size:14px;
+}
+th {
+  background:#f7f9fb;
+  text-align:left;
+}
+.pda-danger {
+  background:#ff2d2d;
+  color:#fff;
+  padding:12px;
+  font-weight:bold;
+}
+.pda-alert {
+  background:#ffe066;
+  color:#000;
+  padding:12px;
+  font-weight:bold;
+}
+ul {
+  margin:0;
+  padding-left:20px;
+}
+li {
+  margin-bottom:8px;
+}
+.source {
+  font-size:12px;
+  color:#666;
+  padding:8px 12px;
+}
+@media(max-width:900px){
+  .grid {grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div>
-      <h1 id="judul">Monitoring Tinggi Muka Air (TMA)</h1>
-      <div class="sub" id="waktu">Memuat data...</div>
-    </div>
-    <div><strong>Transformasi Hijau & Digital</strong></div>
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <h1 id="judul">Monitoring Tinggi Muka Air (TMA)</h1>
+    <div class="sub" id="waktu">Memuat data...</div>
   </div>
+  <div><strong>Transformasi Hijau & Digital</strong></div>
+</div>
 
-  <!-- CONTENT -->
-  <div class="container">
-    <div class="grid">
+<!-- CONTENT -->
+<div class="container">
+  <div class="grid">
 
-      <!-- KONDISI TMA -->
-      <div class="card">
-        <h2>Kondisi TMA</h2>
-        <table id="tmaTable"></table>
-        <div class="source">Sumber: app.mertani.co.id</div>
-      </div>
-
-      <!-- STATUS PDA -->
-      <div class="card">
-        <h2>Status PDA BWS</h2>
-
-        <div id="pdaBahaya" class="pda-danger">-</div>
-        <table id="pdaBahayaTable"></table>
-
-        <div id="pdaSiaga" class="pda-alert">-</div>
-        <table id="pdaSiagaTable"></table>
-
-        <div class="source">Sumber: ewsddassanggai.com</div>
-      </div>
-
-      <!-- TINDAK LANJUT -->
-      <div class="card">
-        <h2>Tindak Lanjut</h2>
-        <div style="padding:14px">
-          <ul id="tindakList"></ul>
-        </div>
-      </div>
-
+    <!-- KONDISI TMA -->
+    <div class="card">
+      <h2>Kondisi TMA</h2>
+      <table id="tmaTable"></table>
+      <div class="source">Sumber: app.mertani.co.id</div>
     </div>
-  </div>
 
-  <!-- SCRIPT -->
-  <script>
+    <!-- STATUS PDA -->
+    <div class="card">
+      <h2>Status PDA BWS</h2>
+
+      <div id="pdaBahaya" class="pda-danger">-</div>
+      <table id="pdaBahayaTable"></table>
+
+      <div id="pdaSiaga" class="pda-alert">-</div>
+      <table id="pdaSiagaTable"></table>
+
+      <div class="source">Sumber: ewsddassanggai.com</div>
+    </div>
+
+    <!-- TINDAK LANJUT -->
+    <div class="card">
+      <h2>Tindak Lanjut</h2>
+      <div style="padding:14px">
+        <ul id="tindakList"></ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec";
+
 function loadData(data) {
 
+  // HEADER
   document.getElementById("judul").innerText = data.meta.judul;
   document.getElementById("waktu").innerText =
     data.meta.tanggal + " | Pukul " + data.meta.waktu;
 
+  // TABEL TMA
   let tmaHTML = `
     <tr>
       <th>Lokasi</th>
@@ -179,29 +169,29 @@ function loadData(data) {
   });
   document.getElementById("tmaTable").innerHTML = tmaHTML;
 
-  // PDA (SESUIKAN DENGAN JSON KAMU)
-const bahaya = data.pda.filter(p => p.nama === "Bahaya");
-const siaga  = data.pda.filter(p => p.nama === "Siaga");
+  // PDA
+  const bahaya = data.pda.filter(p => p.nama === "Bahaya");
+  const siaga  = data.pda.filter(p => p.nama === "Siaga");
 
-document.getElementById("pdaBahaya").innerText = bahaya.length + " PDA Bahaya";
-document.getElementById("pdaSiaga").innerText  = siaga.length  + " PDA Siaga";
+  document.getElementById("pdaBahaya").innerText = bahaya.length + " PDA Bahaya";
+  document.getElementById("pdaSiaga").innerText  = siaga.length  + " PDA Siaga";
 
-document.getElementById("pdaBahayaTable").innerHTML =
-  bahaya.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
+  document.getElementById("pdaBahayaTable").innerHTML =
+    bahaya.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
 
-document.getElementById("pdaSiagaTable").innerHTML =
-  siaga.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
+  document.getElementById("pdaSiagaTable").innerHTML =
+    siaga.map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
 
+  // TINDAK LANJUT
   document.getElementById("tindakList").innerHTML =
     data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
 }
 
-// Inject JSONP
+// JSONP loader
 const script = document.createElement("script");
 script.src = API_URL + "?callback=loadData";
 document.body.appendChild(script);
 </script>
-
 
 </body>
 </html>
