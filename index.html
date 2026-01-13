@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monitoring Tinggi Muka Air (TMA)</title>
 
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <style>
 body {
   margin:0;
@@ -12,52 +14,47 @@ body {
   background:#f2f4f6;
   color:#222;
 }
+
 .header {
-  background: #1B365D;
-  color: #ffffff;
-  padding: 22px 32px;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  align-items: center;
+  background:#1B365D;
+  color:#fff;
+  padding:22px 32px;
+  display:grid;
+  grid-template-columns:1fr 2fr 1fr;
+  align-items:center;
 }
-.header-side {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.header-right {
-  justify-content: flex-end;
-}
-.header-center {
-  text-align: center;
-}
+
+.header-side {display:flex;align-items:center;gap:12px;}
+.header-right {justify-content:flex-end;}
+.header-center {text-align:center;}
+
 .header-center h1 {
-  margin: 0;
-  font-size: 34px;
-  font-weight: 700;
+  margin:0;
+  font-size:34px;
+  font-weight:700;
 }
-.sub {
-  margin-top: 6px;
-  font-size: 20px;
-}
-.logo-left { height: 128px; }
-.logo-right { height: 64px; }
-.right-text {
-  font-size: 14px;
-  line-height: 1.2;
-}
-.container { padding:20px; }
+
+.sub {margin-top:6px;font-size:20px;}
+
+.logo-left {height:128px;}
+.logo-right {height:64px;}
+.right-text {font-size:14px;line-height:1.2;}
+
+.container {padding:20px;}
+
 .grid {
   display:grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns:1.2fr 1fr 1fr;
   gap:16px;
 }
+
 .card {
   background:#fff;
   border-radius:8px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
   overflow:hidden;
 }
+
 .card h2 {
   margin:0;
   padding:12px 16px;
@@ -65,68 +62,81 @@ body {
   color:#fff;
   font-size:18px;
 }
+
 table {
   width:100%;
   border-collapse:collapse;
 }
+
 th, td {
   padding:10px;
   border-bottom:1px solid #e0e0e0;
   font-size:14px;
+  vertical-align:top;
 }
-th {
-  background:#FFFFFF;
+
+th {background:#fafafa;}
+
+.nowrap {
+  white-space:nowrap;
 }
-.pda-danger {
-  background:#ff2d2d;
-  color:#fff;
-  padding:12px;
-  font-weight:bold;
-}
-.pda-alert {
-  background:#ffe066;
-  color:#000;
-  padding:12px;
-  font-weight:bold;
-}
-.pda-was {
-  background:#fff;
-  padding:12px;
-  font-weight:bold;
-}
-@media(max-width:900px){
-  .grid {grid-template-columns:1fr}
-}
-  .tren {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
+
+.tren {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-weight:600;
 }
 
 .tren-naik::before {
-  content: "▲";
-  color: #d32f2f; /* merah */
-  font-size: 14px;
+  content:"▲";
+  color:#d32f2f;
 }
 
 .tren-turun::before {
-  content: "▼";
-  color: #000; /* hitam */
-  font-size: 14px;
+  content:"▼";
+  color:#000;
 }
 
+/* 🔴 highlight baris naik */
+.row-naik {
+  background:#fdeaea;
+}
+
+/* 🟡 bold perubahan signifikan */
+.bold {
+  font-weight:700;
+}
+
+.pda-danger {background:#ff2d2d;color:#fff;padding:12px;font-weight:bold;}
+.pda-alert {background:#ffe066;padding:12px;font-weight:bold;}
+.pda-was {background:#fff;padding:12px;font-weight:bold;}
+
+.btn-download {
+  padding:8px 14px;
+  background:#1B365D;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+}
+.btn-download:hover {background:#274b80;}
+
+@media(max-width:900px){
+  .grid {grid-template-columns:1fr;}
+}
 </style>
 </head>
 
 <body>
 
+<div id="captureArea">
+
 <!-- ================= HEADER ================= -->
 <div class="header">
-
   <div class="header-side">
-    <img src="https://ayucahyani96.github.io/dashboardTMA/IKN_Nusantara-10.png"
-         class="logo-left">
+    <img src="https://ayucahyani96.github.io/dashboardTMA/IKN_Nusantara-10.png" class="logo-left">
   </div>
 
   <div class="header-center">
@@ -135,161 +145,143 @@ th {
   </div>
 
   <div class="header-side header-right">
-    <img src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png"
-         class="logo-right">
-    <div class="right-text">
-      Transformasi<br>Hijau dan Digital
-    </div>
+    <img src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png" class="logo-right">
+    <div class="right-text">Transformasi<br>Hijau dan Digital</div>
   </div>
+</div>
+
+<div class="container">
+
+<div class="grid">
+
+<!-- ================= TMA ================= -->
+<div class="card">
+  <h2>Kondisi TMA</h2>
+  <table id="tmaTable"></table>
+</div>
+
+<!-- ================= PDA ================= -->
+<div class="card">
+  <h2>Status PDA BWS</h2>
+
+  <div id="pdaBahaya" class="pda-danger"></div>
+  <table id="pdaBahayaTable"></table>
+
+  <div id="pdaSiaga" class="pda-alert"></div>
+  <table id="pdaSiagaTable"></table>
+
+  <div id="pdaWaspada" class="pda-was"></div>
+  <table id="pdaWaspadaTable"></table>
+</div>
+
+<!-- ================= TINDAK LANJUT ================= -->
+<div class="card">
+  <h2>Tindak Lanjut</h2>
+  <ul id="tindakList" style="padding:14px"></ul>
+</div>
 
 </div>
 
-<!-- ================= CONTENT ================= -->
-<div class="container">
-
-  <div class="grid">
-
-    <!-- TMA -->
-    <div class="card">
-      <h2>Kondisi TMA</h2>
-      <table id="tmaTable"></table>
-    </div>
-
-    <!-- PDA -->
-    <div class="card">
-      <h2>Status PDA BWS</h2>
-
-      <div id="pdaBahaya" class="pda-danger"></div>
-      <table id="pdaBahayaTable"></table>
-
-      <div id="pdaSiaga" class="pda-alert"></div>
-      <table id="pdaSiagaTable"></table>
-
-      <div id="pdaWaspada" class="pda-was"></div>
-      <table id="pdaWaspadaTable"></table>
-    </div>
-
-    <!-- TINDAK LANJUT -->
-    <div class="card">
-      <h2>Tindak Lanjut</h2>
-      <ul id="tindakList" style="padding:14px"></ul>
-    </div>
-
-  </div>
-
-  <!-- ================= TREN GRAFIK ================= -->
+<!-- ================= GRAFIK ================= -->
 <div class="container">
   <div class="card">
     <h2>Tren Grafik</h2>
-    <div id="grafikTrenContainer"
-         style="padding:16px; text-align:center">
-      <div style="color:#666; font-size:14px;">
-        Grafik tren belum tersedia
-      </div>
+    <div id="grafikTrenContainer" style="padding:16px;text-align:center">
+      Grafik belum tersedia
     </div>
   </div>
 </div>
 
 </div>
 
-<!-- ================= SCRIPT ================= -->
+</div>
+
 <script>
-const API_URL =
-"https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec";
 
 function loadData(data) {
 
-  // ===== HEADER =====
   document.getElementById("judul").innerText = data.meta.judul;
   document.getElementById("waktu").innerText =
     data.meta.tanggal + " | Pukul " + data.meta.waktu;
 
-  // ===== TMA =====
-  let tmaHTML = `
+  // 🔽 SORT PERUBAHAN TERBESAR
+  data.tma.sort((a,b)=>Math.abs(b.perubahan)-Math.abs(a.perubahan));
+
+  let html = `
     <tr>
-      <th>Lokasi</th><th>TMA</th><th>Tren</th><th>Perubahan</th><th>Penyebab</th>
+      <th>Lokasi</th>
+      <th class="nowrap">TMA</th>
+      <th>Tren</th>
+      <th class="nowrap">Perubahan</th>
+      <th>Penyebab</th>
     </tr>`;
-  data.tma.forEach(r => {
-    tmaHTML += `
-      <tr>
+
+  data.tma.forEach(r=>{
+    const naik = r.tren?.toLowerCase()==="naik";
+    const signif = Math.abs(Number(r.perubahan))>0.2;
+
+    html += `
+      <tr class="${naik?'row-naik':''}">
         <td>${r.lokasi}</td>
-        <td>${r.tma} m</td>
+        <td class="nowrap">${r.tma} m</td>
         <td>
-          ${(() => {
-            const t = (r.tren || "").toLowerCase();
-            if (t === "naik") {
-              return `<span class="tren tren-naik">Naik</span>`;
-            }
-            if (t === "turun") {
-              return `<span class="tren tren-turun">Turun</span>`;
-            }
-            return r.tren || "-";
-          })()}
+          ${naik
+            ?'<span class="tren tren-naik">Naik</span>'
+            :r.tren?.toLowerCase()==='turun'
+            ?'<span class="tren tren-turun">Turun</span>'
+            :r.tren||'-'}
         </td>
-        <td>${r.perubahan}</td>
+        <td class="nowrap ${signif?'bold':''}">${r.perubahan}</td>
         <td>${r.penyebab}</td>
       </tr>`;
   });
-  document.getElementById("tmaTable").innerHTML = tmaHTML;
 
-  // ===== PDA =====
-  const valid = p => Number(p.status) > 0;
+  document.getElementById("tmaTable").innerHTML = html;
 
-  const bahaya  = data.pda.filter(p => p.nama==="Bahaya" && valid(p));
-  const siaga   = data.pda.filter(p => p.nama==="Siaga" && valid(p));
-  const waspada = data.pda.filter(p => p.nama==="Waspada" && valid(p));
+  // PDA
+  const valid = p=>p.status!==""&&p.status!=null;
+  renderPDA("Bahaya",data.pda.filter(p=>p.nama==="Bahaya"&&valid(p)));
+  renderPDA("Siaga",data.pda.filter(p=>p.nama==="Siaga"&&valid(p)));
+  renderPDA("Waspada",data.pda.filter(p=>p.nama==="Waspada"&&valid(p)));
 
-  renderPDA("Bahaya", bahaya);
-  renderPDA("Siaga", siaga);
-  renderPDA("Waspada", waspada);
-
-  // ===== TINDAK LANJUT =====
   document.getElementById("tindakList").innerHTML =
-    data.tindak_lanjut.map(t => `<li>${t.isi}</li>`).join("");
+    data.tindak_lanjut.map(t=>`<li>${t.isi}</li>`).join("");
+}
 
-  // ===== TREN GRAFIK =====
-  // ===== TREN GRAFIK (MULTI IMAGE) =====
-const container = document.getElementById("grafikTrenContainer");
-
-if (Array.isArray(data.grafik_tren) && data.grafik_tren.length > 0) {
-  container.innerHTML = data.grafik_tren.map(g => `
-    <div style="margin-bottom:16px">
-      <img 
-        src="${g.url}"
-        alt="${g.name}"
-        style="width:100%; max-height:420px; object-fit:contain; border-radius:6px;"
-      >
-    </div>
+function renderPDA(type,arr){
+  const label=document.getElementById("pda"+type);
+  const table=document.getElementById("pda"+type+"Table");
+  if(arr.length===0){label.style.display="none";table.style.display="none";return;}
+  label.innerText=arr.length+" PDA "+type;
+  table.innerHTML=arr.map(p=>`
+    <tr><td>${p.tinggi}</td><td class="nowrap">${p.status} m</td></tr>
   `).join("");
-} else {
-  container.innerHTML = `
-    <div style="color:#666; font-size:14px;">
-      Grafik tren belum tersedia
-    </div>
-  `;
 }
 
-}
-
-function renderPDA(type, arr) {
-  const label = document.getElementById("pda"+type);
-  const table = document.getElementById("pda"+type+"Table");
-
-  if (arr.length === 0) {
-    label.style.display = "none";
-    table.style.display = "none";
-    return;
+// ⏰ AUTO REFRESH JAM 08 & 13
+setInterval(()=>{
+  const h=new Date().getHours();
+  if((h===8||h===13)&&!sessionStorage.getItem("refreshed_"+h)){
+    sessionStorage.setItem("refreshed_"+h,true);
+    location.reload();
   }
+},60000);
 
-  label.innerText = arr.length + " PDA " + type;
-  table.innerHTML = arr
-    .map(p => `<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`)
-    .join("");
+// DOWNLOAD GAMBAR
+function downloadImage(){
+  html2canvas(document.getElementById("captureArea"),{scale:2})
+  .then(c=>{
+    const a=document.createElement("a");
+    a.href=c.toDataURL("image/png");
+    a.download="dashboard_TMA.png";
+    a.click();
+  });
 }
 
 // JSONP
-const s = document.createElement("script");
-s.src = API_URL + "?callback=loadData";
+const s=document.createElement("script");
+s.src=API_URL+"?callback=loadData";
 document.body.appendChild(s);
 </script>
 
