@@ -97,6 +97,7 @@ th {background:#fafafa;}
   color:#000;
 }
 
+
 /* 🔴 highlight baris naik */
 .row-naik {
   background:#fdeaea;
@@ -224,30 +225,35 @@ function loadData(data) {
     <tr>
       <th>Lokasi</th>
       <th class="nowrap">TMA</th>
-      <th>Tren</th>
       <th class="nowrap">Perubahan</th>
       <th>Penyebab</th>
     </tr>`;
 
   data.tma.forEach(r=>{
-    const naik = r.tren?.toLowerCase()==="naik";
-    const signif = Math.abs(Number(r.perubahan))>0.2;
+  const naik = r.tren?.toLowerCase()==="naik";
+  const turun = r.tren?.toLowerCase()==="turun";
+  const signif = Math.abs(Number(r.perubahan))>0.2;
 
-    html += `
-      <tr class="${naik?'row-naik':''}">
-        <td>${r.lokasi}</td>
-        <td class="nowrap">${r.tma} m</td>
-        <td>
-          ${naik
-            ?'<span class="tren tren-naik">Naik</span>'
-            :r.tren?.toLowerCase()==='turun'
-            ?'<span class="tren tren-turun">Turun</span>'
-            :r.tren||'-'}
-        </td>
-        <td class="nowrap ${signif?'bold':''}">${r.perubahan} m</td>
-        <td>${r.penyebab}</td>
-      </tr>`;
-  });
+  html += `
+    <tr class="${naik?'row-naik':''}">
+      <td>${r.lokasi}</td>
+      <td class="nowrap">${r.tma} m</td>
+
+      <td class="nowrap ${signif?'bold':''}">
+        ${
+          naik
+            ? '<span class="tren tren-naik"></span>'
+            : turun
+            ? '<span class="tren tren-turun"></span>'
+            : ''
+        }
+        ${r.perubahan} m
+      </td>
+
+      <td>${r.penyebab || '-'}</td>
+    </tr>`;
+});
+
 
   document.getElementById("tmaTable").innerHTML = html;
 
