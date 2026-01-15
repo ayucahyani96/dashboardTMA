@@ -81,56 +81,108 @@ td[rowspan] {vertical-align:middle;}
 @media(max-width:900px){
   .grid {grid-template-columns:1fr;}
 }
+.header-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.logo-left {
+  height: 90px;
+}
+
+.logo-right {
+  height: 48px;
+}
+
+.right-text {
+  font-size: 13px;
+  line-height: 1.2;
+}
+
 </style>
 </head>
 
 <body>
 
+<div id="captureArea">
+
+<!-- ================= HEADER ================= -->
 <div class="header">
-  <div></div>
+  <!-- LOGO KIRI -->
+  <div class="header-side">
+    <img 
+      src="https://ayucahyani96.github.io/dashboardTMA/IKN_Nusantara-10.png"
+      class="logo-left"
+      alt="Logo IKN"
+    >
+  </div>
+
+  <!-- JUDUL -->
   <div class="header-center">
     <h1 id="judul">Monitoring Tinggi Muka Air (TMA)</h1>
     <div class="sub" id="waktu"></div>
   </div>
-  <div></div>
+
+  <!-- LOGO KANAN -->
+  <div class="header-side header-right">
+    <img 
+      src="https://ayucahyani96.github.io/dashboardTMA/logo_thd.png"
+      class="logo-right"
+      alt="Transformasi Hijau Digital"
+    >
+    <div class="right-text">
+      Transformasi<br>Hijau dan Digital
+    </div>
+  </div>
 </div>
 
+
 <div class="container">
+
 <div class="grid">
 
 <!-- ================= TMA ================= -->
 <div class="card">
-<h2>Kondisi TMA</h2>
-<table id="tmaTable"></table>
+  <h2>Kondisi TMA</h2>
+  <table id="tmaTable"></table>
 </div>
 
 <!-- ================= PDA ================= -->
 <div class="card">
-<h2>Status PDA BWS</h2>
-<div id="pdaBahaya" class="pda-danger"></div>
-<table id="pdaBahayaTable"></table>
-<div id="pdaSiaga" class="pda-alert"></div>
-<table id="pdaSiagaTable"></table>
-<div id="pdaWaspada" class="pda-was"></div>
-<table id="pdaWaspadaTable"></table>
+  <h2>Status PDA BWS</h2>
+
+  <div id="pdaBahaya" class="pda-danger"></div>
+  <table id="pdaBahayaTable"></table>
+
+  <div id="pdaSiaga" class="pda-alert"></div>
+  <table id="pdaSiagaTable"></table>
+
+  <div id="pdaWaspada" class="pda-was"></div>
+  <table id="pdaWaspadaTable"></table>
 </div>
 
 <!-- ================= TINDAK LANJUT ================= -->
 <div class="card">
-<h2>Tindak Lanjut</h2>
-<ol id="tindakList"></ol>
+  <h2>Tindak Lanjut</h2>
+  <ol id="tindakList"></ol>
 </div>
 
 </div>
-</div>
-<!-- GRAFIK FULL WIDTH -->
+
+<!-- ================= GRAFIK ================= -->
 <div class="container">
   <div class="card">
     <h2>Tren Grafik</h2>
-    <div id="grafikContainer" style="padding:16px;text-align:center">
-      Grafik belum tersedia
-    </div>
+    <div style="padding:16px;text-align:center">Grafik belum tersedia</div>
   </div>
+</div>
+
+</div>
 </div>
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbwR6Nc4_q-cB5VVZf-tycqUBHaD_e6wOUcJMpkIT9tec401B9-lAmV7c9fViX9mq1pd7g/exec";
