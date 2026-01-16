@@ -103,6 +103,31 @@ td[rowspan] {vertical-align:middle;}
   font-size: 13px;
   line-height: 1.2;
 }
+/* ===== PDA TABLE ALIGNMENT ===== */
+.pda-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.pda-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+}
+
+.pda-table td:first-child {
+  width: 70%;
+  text-align: left;
+}
+
+.pda-table td:last-child {
+  width: 30%;
+  text-align: right;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
 
 </style>
 </head>
@@ -299,13 +324,31 @@ if (!data.grafik_tren || data.grafik_tren.length === 0) {
 
 }
 
-function renderPDA(type,arr){
-  const l=document.getElementById("pda"+type);
-  const t=document.getElementById("pda"+type+"Table");
-  if(arr.length===0){l.style.display="none";t.style.display="none";return;}
-  l.innerText=arr.length+" PDA "+type;
-  t.innerHTML=arr.map(p=>`<tr><td>${p.tinggi}</td><td>${p.status} m</td></tr>`).join("");
+function renderPDA(type, arr) {
+  const l = document.getElementById("pda" + type);
+  const t = document.getElementById("pda" + type + "Table");
+
+  if (arr.length === 0) {
+    l.style.display = "none";
+    t.style.display = "none";
+    return;
+  }
+
+  l.innerText = arr.length + " PDA " + type;
+  t.className = "pda-table";
+
+  t.innerHTML = arr
+    .map(
+      p => `
+      <tr>
+        <td>${p.tinggi}</td>
+        <td>${p.status} m</td>
+      </tr>
+    `
+    )
+    .join("");
 }
+
 
 
 // JSONP
