@@ -75,8 +75,8 @@ td.tma-col, th.tma-col {
 td[rowspan] {vertical-align:middle;}
 
 .pda-danger {background:#ff2d2d;color:#fff;padding:12px;font-weight:bold;}
-.pda-alert {background:#ffe066;padding:12px;font-weight:bold;}
-.pda-was {background:#fff;padding:12px;font-weight:bold;}
+.pda-alert {background:#FFAC1C;padding:12px;font-weight:bold;}
+.pda-was {background:#FFEA00;padding:12px;font-weight:bold;}
 
 @media(max-width:900px){
   .grid {grid-template-columns:1fr;}
@@ -197,10 +197,22 @@ function getPasangan(){
 
 const jamLabel={tma8:"08.00",tma13:"13.00",tma20:"20.00"};
 
-function fmt(tgl,jam){
-  const d=new Date(tgl);
-  return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()} ${jam} WITA`;
+function fmtTanggalTMA(baseDate, jamKey) {
+  const d = new Date(baseDate);
+  const nowHour = new Date().getHours();
+
+  // Jika pagi (<13) dan jam TMA adalah 20.00 → pakai H-1
+  if (nowHour < 13 && jamKey === "tma20") {
+    d.setDate(d.getDate() - 1);
+  }
+
+  const jam = jamLabel[jamKey];
+
+  return `${String(d.getDate()).padStart(2,"0")}/${
+    String(d.getMonth()+1).padStart(2,"0")
+  }/${d.getFullYear()} ${jam} WITA`;
 }
+
 
 function loadData(data){
   document.getElementById("judul").innerText=data.meta.judul;
@@ -243,12 +255,12 @@ function loadData(data){
     html+=`
     <tr class="${cls}">
       <td rowspan="2" class="bold">${r.lokasi}</td>
-      <td>${a} m <span class="tma-waktu">(${fmt(data.meta.tanggal,jamLabel[p.a])})</span></td>
+      <td>${a} m <span class="tma-waktu">(${fmtTanggalTMA(data.meta.tanggal, p.a)})</span></td>
       <td rowspan="2">${txt}</td>
       <td rowspan="2">${r.penyebab||"-"}</td>
     </tr>
     <tr class="${cls}">
-      <td>${b} m <span class="tma-waktu">(${fmt(data.meta.tanggal,jamLabel[p.b])})</span></td>
+      <td>${b} m <span class="tma-waktu">(${fmtTanggalTMA(data.meta.tanggal, p.b)})</span></td>
     </tr>`;
   });
 
