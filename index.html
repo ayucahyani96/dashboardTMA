@@ -349,8 +349,6 @@ function renderPDA(type, arr) {
     .join("");
 }
 
-
-
 // JSONP
 const s=document.createElement("script");
 s.src=API_URL+"?callback=loadData";
@@ -360,11 +358,11 @@ document.body.appendChild(s);
 (function(){
   const now = new Date();
 
-  // target update: 08:10, 13:10, 20:10
+  // target update: 08:15, 13:15, 20:15
   const target = [
-    { h: 8,  m: 10 },
-    { h: 13, m: 10 },
-    { h: 20, m: 10 }
+    { h: 8,  m: 15 },
+    { h: 13, m: 15 },
+    { h: 20, m: 15 }
   ];
 
   let next = null;
@@ -378,11 +376,11 @@ document.body.appendChild(s);
     }
   }
 
-  // kalau hari ini sudah lewat semua → besok 08:10
+  // kalau hari ini sudah lewat semua → besok 08:15
   if (!next) {
     next = new Date();
     next.setDate(next.getDate() + 1);
-    next.setHours(8, 10, 0, 0);
+    next.setHours(8, 15, 0, 0);
   }
 
   setTimeout(() => location.reload(), next - now + 2000);
