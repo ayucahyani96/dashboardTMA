@@ -358,20 +358,34 @@ document.body.appendChild(s);
 
 // ===== auto reload jam 08,13,20 =====
 (function(){
-  const now=new Date();
-  const target=[8,13,20];
-  let next=null;
-  for(let h of target){
-    const d=new Date();
-    d.setHours(h,0,0,0);
-    if(d>now){next=d;break;}
+  const now = new Date();
+
+  // target update: 08:10, 13:10, 20:10
+  const target = [
+    { h: 8,  m: 10 },
+    { h: 13, m: 10 },
+    { h: 20, m: 10 }
+  ];
+
+  let next = null;
+
+  for (let t of target) {
+    const d = new Date();
+    d.setHours(t.h, t.m, 0, 0);
+    if (d > now) {
+      next = d;
+      break;
+    }
   }
-  if(!next){
-    next=new Date();
-    next.setDate(next.getDate()+1);
-    next.setHours(8,0,0,0);
+
+  // kalau hari ini sudah lewat semua → besok 08:10
+  if (!next) {
+    next = new Date();
+    next.setDate(next.getDate() + 1);
+    next.setHours(8, 10, 0, 0);
   }
-  setTimeout(()=>location.reload(),next-now+2000);
+
+  setTimeout(() => location.reload(), next - now + 2000);
 })();
 </script>
 
